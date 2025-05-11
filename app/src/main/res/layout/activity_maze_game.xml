@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#F0F0F0"
+    tools:context=".MazeGameActivity">
+
+    <TextView
+        android:id="@+id/game_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="平衡迷宫游戏"
+        android:textSize="24sp"
+        android:textColor="#333333"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"/>
+
+    <FrameLayout
+        android:id="@+id/maze_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/game_title"
+        android:layout_above="@id/instruction_text"
+        android:background="#FFFFFF"
+        android:padding="8dp">
+
+        <com.example.accelerometer.MazeView
+            android:id="@+id/maze_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/instruction_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center"
+        android:text="倾斜手机引导小球通过迷宫！"
+        android:textColor="#666666"
+        android:textSize="16sp" />
+
+</RelativeLayout> 

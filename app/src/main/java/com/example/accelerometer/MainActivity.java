@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.content.Intent;
 
 public class MainActivity extends AppCompatActivity {
     TextView acceleration_x;//x方向的加速度
@@ -19,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     TextView ifmove;
     TextView step_count; // 显示步数的文本视图
     Button reset_button; // 清零按钮
+    Button game_button; // 游戏按钮
     
     // 步数相关变量
     private int stepCounter = 0;
@@ -52,6 +54,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         
+        // 初始化游戏按钮并设置点击事件
+        game_button = (Button) findViewById(R.id.game_button);
+        game_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // 跳转到游戏页面
+                Intent intent = new Intent(MainActivity.this, MazeGameActivity.class);
+                startActivity(intent);
+            }
+        });
+        
         mySensorManager = (SensorManager)getSystemService(SENSOR_SERVICE);//获得SensorManager
     }
     private SensorEventListener mySensorListener = new SensorEventListener() {
@@ -65,23 +78,23 @@ public class MainActivity extends AppCompatActivity {
                         + sensorEvent.values[2] * sensorEvent.values[2]);
 
                 //设置加速度的显示情况
-                acceleration_x.setText(String.valueOf(sensorEvent.values[0]));
-                acceleration_y.setText(String.valueOf(sensorEvent.values[1]));
-                acceleration_z.setText(String.valueOf(sensorEvent.values[2]));
-                acceleration_total.setText(String.valueOf(total_acceleration));
+                acceleration_x.setText(String.format("%.2f", sensorEvent.values[0]));
+                acceleration_y.setText(String.format("%.2f", sensorEvent.values[1]));
+                acceleration_z.setText(String.format("%.2f", sensorEvent.values[2]));
+                acceleration_total.setText(String.format("%.2f", total_acceleration));
 
                 // 步数检测算法
                 detectStep(total_acceleration);
 
-                //通过与本地9.8左右的加速度进行比较从而判断手机是否运动
+                //通过与本地9.8左右的加速度进行比较从而判断手机是否运动 
                 //因为实际本地加速度会在9.8-9.9之间浮动，通过物理知识可知小于9.8是在上升，大于9.9是在下降
-                if(total_acceleration < 9.9 && total_acceleration > 9.8){
+                if(total_acceleration < 10.0 && total_acceleration > 9.7){
                     ifmove.setText("At rest" );
                 }
-                else if(total_acceleration >= 9.9){
+                else if(total_acceleration >= 10.0){
                     ifmove.setText("In motion,downing" );
                 }
-                else if(total_acceleration <= 9.8){
+                else if(total_acceleration <= 9.7){
                     ifmove.setText("In motion,uping" );
                 }
             }
